@@ -71,13 +71,13 @@ void config(HWND hwndParent){
 }
 
 void about(HWND hwndParent){
-	MessageBoxW(hwndParent,L"Direct Stream Digital Player 1.1 (MinGW), by David Kharabadze",
+	MessageBoxW(hwndParent,L"Direct Stream Digital Player 1.1.1 (MinGW), by David Kharabadze",
 		L"About DSD Player",MB_OK);
 }
 
 void init() {
 	debugfile=0;//OFF DEBUG
-	//if(debugfile==0)fopen_s(&debugfile,"D:/David/DSDdebug.txt","wt");//ON DEBUG
+	//if(debugfile==0)debugfile = fopen("H:/DSDdebug.txt","w");//ON DEBUG
 	if(debugfile){fprintf(debugfile,"Start debug\n");fflush(debugfile);}
 	return;
 }
@@ -97,7 +97,7 @@ void getfileinfo(const char *filename, char *title, int *length_in_ms){
 	title=0;//Dont't decode ID3v2 TAG
 	if (!filename || !*filename){  // currently playing file
 		if(debugfile){fprintf(debugfile,"Curent File Info\n");fflush(debugfile);}
-		if(length_in_ms)
+		if(length_in_ms && DSD.SampleRate != 0)
 			*length_in_ms=int(DSD.Samples*1000/DSD.SampleRate);
 		if(title)
 			strcpy(title,"Current_File");//???
@@ -449,7 +449,7 @@ int INIT_MODULE(void){
 
 	//mod = {
 	mod.version=IN_VER;	// defined in IN2.H
-	mod.description="Direct Stream Digital Player v1.1 (x86)";
+	mod.description="Direct Stream Digital Player v1.1.1 (x86)";
 	mod.hMainWindow=0;	// hMainWindow (filled in by winamp)
 	mod.hDllInstance=0;  // hDllInstance (filled in by winamp)
 	mod.FileExtensions="DSF\0Sony Direct Stream Digital (*.DSF)\0DFF\0Phillips Direct Stream Digital (*.DFF)\0";
